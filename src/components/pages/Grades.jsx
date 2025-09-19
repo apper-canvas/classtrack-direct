@@ -383,13 +383,12 @@ let filtered = grades;
                 </div>
               </div>
             )}
-)}
-          </div>
+</div>
         </CardContent>
       </Card>
 
       {/* Grades Table */}
-{/* Grades Table */}
+      {grades.length === 0 ? (
         <Empty
           title="No grades recorded"
           description="Start tracking student performance by adding your first grade"
