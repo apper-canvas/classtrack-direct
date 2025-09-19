@@ -16,6 +16,7 @@ const [formData, setFormData] = useState({
     phone: student?.phone || "",
     classId: student?.classId || "",
     enrollmentDate: student?.enrollmentDate || new Date().toISOString().split("T")[0],
+    scienceMarks: student?.scienceMarks || "",
     parentContact: {
       name: student?.parentContact?.name || "",
       email: student?.parentContact?.email || "",
@@ -164,7 +165,7 @@ disabled={!!student}
             </FormField>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField label="Class">
               <select
                 name="classId"
@@ -185,6 +186,20 @@ disabled={!!student}
                 type="date"
                 value={formData.enrollmentDate}
                 onChange={handleChange}
+              />
+            </FormField>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FormField label="Science Marks">
+              <Input
+                name="scienceMarks"
+                type="number"
+                placeholder="Enter science marks"
+                value={formData.scienceMarks}
+                onChange={handleChange}
+                min="0"
+                max="100"
               />
             </FormField>
           </div>

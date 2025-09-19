@@ -13,7 +13,7 @@ class StudentService {
   async getAll() {
     try {
       const params = {
-        fields: [
+fields: [
           {"field": {"Name": "Name"}},
           {"field": {"Name": "id_c"}},
           {"field": {"Name": "name_c"}},
@@ -24,7 +24,8 @@ class StudentService {
           {"field": {"Name": "parent_contact_name_c"}},
           {"field": {"Name": "parent_contact_email_c"}},
           {"field": {"Name": "parent_contact_phone_c"}},
-          {"field": {"Name": "class_id_c"}}
+          {"field": {"Name": "class_id_c"}},
+          {"field": {"Name": "science_marks_c"}}
         ],
         orderBy: [{"fieldName": "name_c", "sorttype": "ASC"}],
         pagingInfo: {"limit": 100, "offset": 0}
@@ -40,7 +41,7 @@ class StudentService {
 
       // Transform data to match expected format
       return (response.data || []).map(record => ({
-        Id: record.Id,
+Id: record.Id,
         id: record.id_c || '',
         name: record.name_c || record.Name || '',
         email: record.email_c || '',
@@ -48,6 +49,7 @@ class StudentService {
         classId: record.class_id_c?.Id || record.class_id_c,
         enrollmentDate: record.enrollment_date_c || '',
         photo: record.photo_c || '',
+        scienceMarks: record.science_marks_c || '',
         parentContact: {
           name: record.parent_contact_name_c || '',
           email: record.parent_contact_email_c || '',
@@ -64,7 +66,7 @@ class StudentService {
   async getById(id) {
     try {
       const params = {
-        fields: [
+fields: [
           {"field": {"Name": "Name"}},
           {"field": {"Name": "id_c"}},
           {"field": {"Name": "name_c"}},
@@ -75,7 +77,8 @@ class StudentService {
           {"field": {"Name": "parent_contact_name_c"}},
           {"field": {"Name": "parent_contact_email_c"}},
           {"field": {"Name": "parent_contact_phone_c"}},
-          {"field": {"Name": "class_id_c"}}
+          {"field": {"Name": "class_id_c"}},
+          {"field": {"Name": "science_marks_c"}}
         ]
       };
 
@@ -87,7 +90,7 @@ class StudentService {
 
       const record = response.data;
       return {
-        Id: record.Id,
+Id: record.Id,
         id: record.id_c || '',
         name: record.name_c || record.Name || '',
         email: record.email_c || '',
@@ -95,6 +98,7 @@ class StudentService {
         classId: record.class_id_c?.Id || record.class_id_c,
         enrollmentDate: record.enrollment_date_c || '',
         photo: record.photo_c || '',
+        scienceMarks: record.science_marks_c || '',
         parentContact: {
           name: record.parent_contact_name_c || '',
           email: record.parent_contact_email_c || '',
@@ -111,7 +115,7 @@ class StudentService {
     try {
       const params = {
         records: [{
-          Name: studentData.name,
+Name: studentData.name,
           id_c: studentData.id,
           name_c: studentData.name,
           email_c: studentData.email,
@@ -121,7 +125,8 @@ class StudentService {
           parent_contact_name_c: studentData.parentContact?.name || '',
           parent_contact_email_c: studentData.parentContact?.email || '',
           parent_contact_phone_c: studentData.parentContact?.phone || '',
-          class_id_c: studentData.classId ? parseInt(studentData.classId) : null
+          class_id_c: studentData.classId ? parseInt(studentData.classId) : null,
+          science_marks_c: studentData.scienceMarks || ''
         }]
       };
 
@@ -162,7 +167,7 @@ class StudentService {
         records: [{
           Id: parseInt(id),
           Name: studentData.name,
-          id_c: studentData.id,
+id_c: studentData.id,
           name_c: studentData.name,
           email_c: studentData.email,
           phone_c: studentData.phone,
@@ -171,7 +176,8 @@ class StudentService {
           parent_contact_name_c: studentData.parentContact?.name || '',
           parent_contact_email_c: studentData.parentContact?.email || '',
           parent_contact_phone_c: studentData.parentContact?.phone || '',
-          class_id_c: studentData.classId ? parseInt(studentData.classId) : null
+          class_id_c: studentData.classId ? parseInt(studentData.classId) : null,
+          science_marks_c: studentData.scienceMarks || ''
         }]
       };
 
@@ -240,7 +246,7 @@ class StudentService {
     }
   }
 
-  transformRecord(record) {
+transformRecord(record) {
     return {
       Id: record.Id,
       id: record.id_c || '',
@@ -250,6 +256,7 @@ class StudentService {
       classId: record.class_id_c?.Id || record.class_id_c,
       enrollmentDate: record.enrollment_date_c || '',
       photo: record.photo_c || '',
+      scienceMarks: record.science_marks_c || '',
       parentContact: {
         name: record.parent_contact_name_c || '',
         email: record.parent_contact_email_c || '',
