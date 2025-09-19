@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import Button from "@/components/atoms/Button";
 import FormField from "@/components/molecules/FormField";
@@ -27,7 +27,7 @@ const StudentForm = ({ student, onSave, onCancel }) => {
   const [errors, setErrors] = useState({});
   const [classes, setClasses] = useState([]);
 
-  useState(() => {
+useEffect(() => {
     loadClasses();
   }, []);
 
