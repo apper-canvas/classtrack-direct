@@ -1,23 +1,24 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import Button from "@/components/atoms/Button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/atoms/Card";
-import Badge from "@/components/atoms/Badge";
-import SearchBar from "@/components/molecules/SearchBar";
-import GradeForm from "@/components/organisms/GradeForm";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
 import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import Badge from "@/components/atoms/Badge";
+import GradeForm from "@/components/organisms/GradeForm";
+import Classes from "@/components/pages/Classes";
+import Loading from "@/components/ui/Loading";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import SearchBar from "@/components/molecules/SearchBar";
 import gradeService from "@/services/api/gradeService";
-import studentService from "@/services/api/studentService";
 import classService from "@/services/api/classService";
+import studentService from "@/services/api/studentService";
 
 const Grades = () => {
   const [grades, setGrades] = useState([]);
   const [students, setStudents] = useState([]);
   const [classes, setClasses] = useState([]);
-  const [filteredGrades, setFilteredGrades] = useState([]);
+const [filteredGrades, setFilteredGrades] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,14 +26,16 @@ const Grades = () => {
   const [editingGrade, setEditingGrade] = useState(null);
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-
+  const [dateRange, setDateRange] = useState({ start: "", end: "" });
+  const [gradeThreshold, setGradeThreshold] = useState({ min: 0, max: 100, type: "all" });
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   useEffect(() => {
     loadData();
   }, []);
 
   useEffect(() => {
-    filterGrades();
-  }, [grades, searchQuery, selectedClass, selectedCategory]);
+filterGrades();
+  }, [grades, searchQuery, selectedClass, selectedCategory, dateRange, gradeThreshold]);
 
   const loadData = async () => {
     setLoading(true);
@@ -55,7 +58,7 @@ const Grades = () => {
   };
 
   const filterGrades = () => {
-    let filtered = grades;
+let filtered = grades;
 
     // Filter by search query
     if (searchQuery.trim()) {
@@ -80,6 +83,40 @@ const Grades = () => {
     // Filter by category
     if (selectedCategory) {
       filtered = filtered.filter(grade => grade.category === selectedCategory);
+    }
+
+    // Filter by date range
+    if (dateRange.start || dateRange.end) {
+      filtered = filtered.filter(grade => {
+        const gradeDate = new Date(grade.date);
+        const startDate = dateRange.start ? new Date(dateRange.start) : null;
+        const endDate = dateRange.end ? new Date(dateRange.end) : null;
+        
+        if (startDate && endDate) {
+          return gradeDate >= startDate && gradeDate <= endDate;
+        } else if (startDate) {
+          return gradeDate >= startDate;
+        } else if (endDate) {
+          return gradeDate <= endDate;
+        }
+        return true;
+      });
+    }
+
+    // Filter by grade threshold
+    if (gradeThreshold.type !== "all") {
+      filtered = filtered.filter(grade => {
+        const percentage = (grade.points / grade.maxPoints) * 100;
+        
+        if (gradeThreshold.type === "above") {
+          return percentage >= gradeThreshold.min;
+        } else if (gradeThreshold.type === "below") {
+          return percentage <= gradeThreshold.max;
+        } else if (gradeThreshold.type === "between") {
+          return percentage >= gradeThreshold.min && percentage <= gradeThreshold.max;
+        }
+        return true;
+      });
     }
 
     setFilteredGrades(filtered);
@@ -188,68 +225,171 @@ const Grades = () => {
       {/* Filters */}
       <Card className="mb-6">
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
-            <div className="md:col-span-5">
-              <SearchBar
-                placeholder="Search by assignment, student, class, or category..."
-                onSearch={handleSearch}
-              />
-            </div>
-            
-            <div className="md:col-span-3">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Class</label>
-              <select
-                value={selectedClass}
-                onChange={(e) => setSelectedClass(e.target.value)}
-                className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              >
-                <option value="">All Classes</option>
-                {classes.map(cls => (
-                  <option key={cls.Id} value={cls.Id}>{cls.name}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="md:col-span-3">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Category</label>
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              >
-                <option value="">All Categories</option>
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="md:col-span-1">
-              {(selectedClass || selectedCategory || searchQuery) && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    setSelectedClass("");
-                    setSelectedCategory("");
-                    setSearchQuery("");
-                  }}
-                  className="w-full"
+<div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+              <div className="md:col-span-6">
+                <SearchBar
+                  placeholder="Search by assignment, student, class, or category..."
+                  onSearch={handleSearch}
+                />
+              </div>
+              
+              <div className="md:col-span-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Class</label>
+                <select
+                  value={selectedClass}
+                  onChange={(e) => setSelectedClass(e.target.value)}
+                  className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 >
-                  <ApperIcon name="X" className="w-4 h-4" />
-                </Button>
-              )}
+                  <option value="">All Classes</option>
+                  {classes.map(cls => (
+                    <option key={cls.Id} value={cls.Id}>{cls.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="md:col-span-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Category</label>
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                >
+                  <option value="">All Categories</option>
+                  {categories.map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
-          
-          <div className="mt-4 text-sm text-gray-500">
-            Showing {filteredGrades.length} of {grades.length} grades
+
+            <div className="flex justify-between items-center">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                className="flex items-center gap-2"
+              >
+                <ApperIcon name="Filter" className="w-4 h-4" />
+                {showAdvancedFilters ? "Hide Advanced" : "Advanced Filters"}
+              </Button>
+              <div className="text-sm text-gray-500">
+                {filteredGrades.length} of {grades.length} grades
+              </div>
+            </div>
+
+            {showAdvancedFilters && (
+              <div className="bg-gray-50 p-4 rounded-lg border">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Date Range Filter */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
+                    <div className="space-y-2">
+                      <input
+                        type="date"
+                        value={dateRange.start}
+                        onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
+                        placeholder="Start date"
+                        className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      />
+                      <input
+                        type="date"
+                        value={dateRange.end}
+                        onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
+                        placeholder="End date"
+                        className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Grade Threshold Filter */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Grade Threshold</label>
+                    <div className="space-y-2">
+                      <select
+                        value={gradeThreshold.type}
+                        onChange={(e) => setGradeThreshold(prev => ({ ...prev, type: e.target.value }))}
+                        className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      >
+                        <option value="all">All Grades</option>
+                        <option value="above">Above 90% (A)</option>
+                        <option value="below">Below 70% (C-)</option>
+                        <option value="between">Custom Range</option>
+                      </select>
+                      {gradeThreshold.type === "above" && (
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          value={gradeThreshold.min}
+                          onChange={(e) => setGradeThreshold(prev => ({ ...prev, min: Number(e.target.value) }))}
+                          placeholder="Minimum %"
+                          className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        />
+                      )}
+                      {gradeThreshold.type === "below" && (
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          value={gradeThreshold.max}
+                          onChange={(e) => setGradeThreshold(prev => ({ ...prev, max: Number(e.target.value) }))}
+                          placeholder="Maximum %"
+                          className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        />
+                      )}
+                      {gradeThreshold.type === "between" && (
+                        <div className="flex gap-2">
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            value={gradeThreshold.min}
+                            onChange={(e) => setGradeThreshold(prev => ({ ...prev, min: Number(e.target.value) }))}
+                            placeholder="Min %"
+                            className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                          />
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            value={gradeThreshold.max}
+                            onChange={(e) => setGradeThreshold(prev => ({ ...prev, max: Number(e.target.value) }))}
+                            placeholder="Max %"
+                            className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Clear Filters */}
+                  <div className="flex items-end">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setSearchQuery("");
+                        setSelectedClass("");
+                        setSelectedCategory("");
+                        setDateRange({ start: "", end: "" });
+                        setGradeThreshold({ min: 0, max: 100, type: "all" });
+                      }}
+                      className="w-full flex items-center justify-center gap-2"
+                    >
+                      <ApperIcon name="X" className="w-4 h-4" />
+                      Clear All Filters
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+)}
           </div>
         </CardContent>
       </Card>
 
       {/* Grades Table */}
-      {grades.length === 0 ? (
+{/* Grades Table */}
         <Empty
           title="No grades recorded"
           description="Start tracking student performance by adding your first grade"
