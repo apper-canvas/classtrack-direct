@@ -9,7 +9,7 @@ import studentService from "@/services/api/studentService";
 import classService from "@/services/api/classService";
 
 const StudentForm = ({ student, onSave, onCancel }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     id: student?.id || "",
     name: student?.name || "",
     email: student?.email || "",
@@ -77,8 +77,8 @@ useEffect(() => {
       newErrors.email = "Invalid email format";
     }
     if (!formData.phone.trim()) newErrors.phone = "Phone is required";
-    if (!formData.id.trim()) newErrors.id = "Student ID is required";
-    
+// Only validate ID for editing existing students, not for new students
+    if (student?.Id && !formData.id.trim()) newErrors.id = "Student ID is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -91,7 +91,7 @@ useEffect(() => {
     setLoading(true);
     try {
       let savedStudent;
-      if (student?.Id) {
+if (student?.Id) {
         savedStudent = await studentService.update(student.Id, formData);
         toast.success("Student updated successfully!");
       } else {
@@ -125,7 +125,7 @@ useEffect(() => {
                 value={formData.id}
                 onChange={handleChange}
                 placeholder="Enter student ID"
-                disabled={!!student}
+disabled={!!student}
                 error={errors.id}
               />
             </FormField>
