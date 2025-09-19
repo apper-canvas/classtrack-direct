@@ -1,0 +1,34 @@
+[
+  {
+    "Id": 1,
+    "name": "Advanced Mathematics",
+    "subject": "Mathematics",
+    "term": "Fall 2024",
+    "studentIds": [1, 2, 7],
+    "gradeCategories": ["Homework", "Quiz", "Test", "Project", "Participation"]
+  },
+  {
+    "Id": 2,
+    "name": "English Literature",
+    "subject": "English",
+    "term": "Fall 2024",
+    "studentIds": [3, 4, 8],
+    "gradeCategories": ["Homework", "Essay", "Test", "Project", "Participation"]
+  },
+  {
+    "Id": 3,
+    "name": "Chemistry Fundamentals",
+    "subject": "Science",
+    "term": "Fall 2024",
+    "studentIds": [5, 6],
+    "gradeCategories": ["Homework", "Lab Report", "Test", "Project", "Participation"]
+  },
+  {
+    "Id": 4,
+    "name": "World History",
+    "subject": "History",
+    "term": "Fall 2024",
+    "studentIds": [],
+    "gradeCategories": ["Homework", "Quiz", "Test", "Research Paper", "Participation"]
+  }
+]

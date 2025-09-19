@@ -1,0 +1,74 @@
+[
+  {
+    "Id": 1,
+    "name": "Algebra Quiz #1",
+    "classId": 1,
+    "category": "Quiz",
+    "maxPoints": 100,
+    "dueDate": "2024-09-05",
+    "description": "Basic algebra concepts and polynomial operations"
+  },
+  {
+    "Id": 2,
+    "name": "Homework Set 1",
+    "classId": 1,
+    "category": "Homework",
+    "maxPoints": 100,
+    "dueDate": "2024-09-03",
+    "description": "Practice problems covering chapters 1-2"
+  },
+  {
+    "Id": 3,
+    "name": "Essay: Character Analysis",
+    "classId": 2,
+    "category": "Essay",
+    "maxPoints": 100,
+    "dueDate": "2024-09-10",
+    "description": "Analyze the main character from our current reading"
+  },
+  {
+    "Id": 4,
+    "name": "Reading Comprehension Quiz",
+    "classId": 2,
+    "category": "Quiz",
+    "maxPoints": 100,
+    "dueDate": "2024-09-08",
+    "description": "Quiz on chapters 3-5"
+  },
+  {
+    "Id": 5,
+    "name": "Lab Report: Chemical Reactions",
+    "classId": 3,
+    "category": "Lab Report",
+    "maxPoints": 100,
+    "dueDate": "2024-09-12",
+    "description": "Document and analyze chemical reaction experiment"
+  },
+  {
+    "Id": 6,
+    "name": "Chemistry Quiz #1",
+    "classId": 3,
+    "category": "Quiz",
+    "maxPoints": 100,
+    "dueDate": "2024-09-07",
+    "description": "Basic chemistry principles and formulas"
+  },
+  {
+    "Id": 7,
+    "name": "Midterm Exam",
+    "classId": 1,
+    "category": "Test",
+    "maxPoints": 100,
+    "dueDate": "2024-10-15",
+    "description": "Comprehensive exam covering first half of semester"
+  },
+  {
+    "Id": 8,
+    "name": "Research Project",
+    "classId": 2,
+    "category": "Project",
+    "maxPoints": 150,
+    "dueDate": "2024-11-20",
+    "description": "Independent research project on chosen topic"
+  }
+]
