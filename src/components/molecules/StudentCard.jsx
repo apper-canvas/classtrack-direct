@@ -14,7 +14,7 @@ const StudentCard = ({ student, averageGrade }) => {
   };
 
   const handleClick = () => {
-    navigate(`/students/${student.Id}`);
+navigate(`/students/${student.Id}`);
   };
 
   return (
@@ -29,7 +29,7 @@ const StudentCard = ({ student, averageGrade }) => {
               <ApperIcon name="User" className="w-6 h-6 text-primary-700" />
             </div>
             <div>
-              <h3 className="font-semibold text-lg text-gray-900">{student.name}</h3>
+<h3 className="font-semibold text-lg text-gray-900">{student.name}</h3>
               <p className="text-sm text-gray-500">ID: {student.id}</p>
             </div>
           </div>
@@ -43,13 +43,13 @@ const StudentCard = ({ student, averageGrade }) => {
         <div className="space-y-2">
           <div className="flex items-center text-sm text-gray-600">
             <ApperIcon name="Mail" className="w-4 h-4 mr-2" />
-            {student.email}
+{student.email}
           </div>
-          <div className="flex items-center text-sm text-gray-600">
+          <div className="flex items-center text-sm text-gray-600 mb-2">
             <ApperIcon name="Phone" className="w-4 h-4 mr-2" />
             {student.phone}
           </div>
-          <div className="flex items-center text-sm text-gray-600">
+<div className="flex items-center text-sm text-gray-600">
             <ApperIcon name="Calendar" className="w-4 h-4 mr-2" />
             Enrolled: {new Date(student.enrollmentDate).toLocaleDateString()}
           </div>

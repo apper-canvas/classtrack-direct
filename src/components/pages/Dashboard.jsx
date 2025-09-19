@@ -30,7 +30,7 @@ const Dashboard = () => {
     setLoading(true);
     setError("");
     try {
-      const [students, classes, grades] = await Promise.all([
+const [students, classes, grades] = await Promise.all([
         studentService.getAll(),
         classService.getAll(),
         gradeService.getAll()
@@ -62,7 +62,7 @@ const Dashboard = () => {
     const classGrades = data.grades.filter(g => g.classId === classId);
     if (classGrades.length === 0) return 0;
     
-    const average = classGrades.reduce((sum, grade) => sum + (grade.points / grade.maxPoints * 100), 0) / classGrades.length;
+const average = classGrades.reduce((sum, grade) => sum + (grade.points / grade.maxPoints * 100), 0) / classGrades.length;
     return average;
   };
 
@@ -174,7 +174,7 @@ const Dashboard = () => {
               />
             ) : (
               <div className="space-y-4">
-                {data.recentGrades.map((grade) => {
+{data.recentGrades.map((grade) => {
                   const percentage = (grade.points / grade.maxPoints * 100);
                   return (
                     <div key={grade.Id} className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-white rounded-lg border border-gray-100 hover:shadow-md transition-all duration-200">
@@ -228,7 +228,7 @@ const Dashboard = () => {
             ) : (
               <div className="space-y-4">
                 {data.classes.map((cls) => {
-                  const classStudents = data.students.filter(s => s.classId === cls.Id);
+const classStudents = data.students.filter(s => s.classId === cls.Id);
                   const classAverage = getClassAverage(cls.Id);
                   return (
                     <div key={cls.Id} className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-white rounded-lg border border-gray-100 hover:shadow-md transition-all duration-200">

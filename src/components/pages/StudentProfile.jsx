@@ -31,7 +31,7 @@ const StudentProfile = () => {
     setError("");
     try {
       const [studentData, gradeData, classData] = await Promise.all([
-        studentService.getById(parseInt(id)),
+studentService.getById(parseInt(id)),
         gradeService.getAll(),
         classService.getAll()
       ]);
@@ -42,7 +42,7 @@ const StudentProfile = () => {
       }
 
       setStudent(studentData);
-      setGrades(gradeData.filter(g => g.studentId === studentData.Id));
+setGrades(gradeData.filter(g => g.studentId === studentData.Id));
       setClasses(classData);
     } catch (err) {
       setError("Failed to load student data. Please try again.");
@@ -71,7 +71,7 @@ const StudentProfile = () => {
   if (error) return <Error message={error} onRetry={loadStudentData} />;
   if (!student) return <Error message="Student not found" />;
 
-  const studentClass = classes.find(c => c.Id === student.classId);
+const studentClass = classes.find(c => c.Id === student.classId);
   
   const getGradesByCategory = () => {
     const categories = {};
@@ -127,7 +127,7 @@ const StudentProfile = () => {
                 <div className="w-20 h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center mx-auto mb-4">
                   <ApperIcon name="User" className="w-10 h-10 text-primary-700" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-1">{student.name}</h2>
+<h2 className="text-2xl font-bold text-gray-900 mb-1">{student.name}</h2>
                 <p className="text-gray-500">Student ID: {student.id}</p>
               </div>
 
@@ -142,19 +142,19 @@ const StudentProfile = () => {
               <div className="space-y-4">
                 <div className="flex items-center text-gray-600">
                   <ApperIcon name="Mail" className="w-5 h-5 mr-3 text-gray-400" />
-                  <span className="break-all">{student.email}</span>
+<span className="break-all">{student.email}</span>
                 </div>
                 <div className="flex items-center text-gray-600">
-                  <ApperIcon name="Phone" className="w-5 h-5 mr-3 text-gray-400" />
+<ApperIcon name="Phone" className="w-5 h-5 mr-3 text-gray-400" />
                   <span>{student.phone}</span>
                 </div>
-                {studentClass && (
+{studentClass && (
                   <div className="flex items-center text-gray-600">
                     <ApperIcon name="BookOpen" className="w-5 h-5 mr-3 text-gray-400" />
                     <span>{studentClass.name}</span>
                   </div>
                 )}
-                <div className="flex items-center text-gray-600">
+<div className="flex items-center text-gray-600">
                   <ApperIcon name="Calendar" className="w-5 h-5 mr-3 text-gray-400" />
                   <span>Enrolled: {new Date(student.enrollmentDate).toLocaleDateString()}</span>
                 </div>
@@ -214,7 +214,7 @@ const StudentProfile = () => {
                 <Button 
                   variant="secondary" 
                   className="w-full"
-                  onClick={() => navigate(`/students/${student.Id}/edit`)}
+onClick={() => navigate(`/students/${student.Id}/edit`)}
                 >
                   <ApperIcon name="Edit" className="w-4 h-4 mr-2" />
                   Edit Student
@@ -295,7 +295,7 @@ const StudentProfile = () => {
                       .sort((a, b) => new Date(b.date) - new Date(a.date))
                       .map((grade) => (
                         <GradeCard
-                          key={grade.Id}
+key={grade.Id}
                           grade={grade.points}
                           maxGrade={grade.maxPoints}
                           assignment={grade.assignmentName}

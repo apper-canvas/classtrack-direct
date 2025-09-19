@@ -42,7 +42,7 @@ filterGrades();
     setError("");
     try {
       const [gradeData, studentData, classData] = await Promise.all([
-        gradeService.getAll(),
+gradeService.getAll(),
         studentService.getAll(),
         classService.getAll()
       ]);
@@ -64,7 +64,7 @@ let filtered = grades;
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(grade => {
-        const student = students.find(s => s.Id === grade.studentId);
+const student = students.find(s => s.Id === grade.studentId);
         const cls = classes.find(c => c.Id === grade.classId);
         return (
           grade.assignmentName.toLowerCase().includes(query) ||
@@ -77,12 +77,12 @@ let filtered = grades;
 
     // Filter by class
     if (selectedClass) {
-      filtered = filtered.filter(grade => grade.classId.toString() === selectedClass);
+filtered = filtered.filter(grade => grade.classId.toString() === selectedClass);
     }
 
     // Filter by category
     if (selectedCategory) {
-      filtered = filtered.filter(grade => grade.category === selectedCategory);
+filtered = filtered.filter(grade => grade.category === selectedCategory);
     }
 
     // Filter by date range
@@ -242,7 +242,7 @@ let filtered = grades;
                   className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 >
                   <option value="">All Classes</option>
-                  {classes.map(cls => (
+{classes.map(cls => (
                     <option key={cls.Id} value={cls.Id}>{cls.name}</option>
                   ))}
                 </select>
@@ -435,23 +435,23 @@ let filtered = grades;
                 {filteredGrades
                   .sort((a, b) => new Date(b.date) - new Date(a.date))
                   .map((grade) => {
-                    const student = students.find(s => s.Id === grade.studentId);
+const student = students.find(s => s.Id === grade.studentId);
                     const cls = classes.find(c => c.Id === grade.classId);
                     const percentage = (grade.points / grade.maxPoints * 100);
                     
                     return (
-                      <tr key={grade.Id} className="hover:bg-gray-50 transition-colors duration-150">
+<tr key={grade.Id} className="hover:bg-gray-50 transition-colors duration-150">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-medium text-gray-900">{grade.assignmentName}</div>
                           {grade.notes && (
                             <div className="text-xs text-gray-500 mt-1">{grade.notes}</div>
                           )}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+<td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{student?.name || "Unknown"}</div>
                           <div className="text-xs text-gray-500">{student?.id}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+<td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{cls?.name || "Unknown"}</div>
                           <div className="text-xs text-gray-500">{cls?.subject}</div>
                         </td>
@@ -465,7 +465,7 @@ let filtered = grades;
                             <Badge variant={getGradeBadgeVariant(percentage)}>
                               {percentage.toFixed(1)}%
                             </Badge>
-                            <span className="text-sm text-gray-500">
+<span className="text-sm text-gray-500">
                               ({grade.points}/{grade.maxPoints})
                             </span>
                           </div>

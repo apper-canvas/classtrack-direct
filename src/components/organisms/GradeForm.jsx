@@ -68,7 +68,7 @@ const GradeForm = ({ grade, onSave, onCancel }) => {
 
   const handleAssignmentSelect = (e) => {
     const assignmentId = e.target.value;
-    const assignment = assignments.find(a => a.Id.toString() === assignmentId);
+const assignment = assignments.find(a => a.Id.toString() === assignmentId);
     
     if (assignment) {
       setFormData(prev => ({
@@ -134,7 +134,7 @@ const GradeForm = ({ grade, onSave, onCancel }) => {
     }
   };
 
-  const getSelectedStudent = () => {
+const getSelectedStudent = () => {
     return students.find(s => s.Id.toString() === formData.studentId);
   };
 
@@ -166,7 +166,7 @@ const GradeForm = ({ grade, onSave, onCancel }) => {
               >
                 <option value="">Select a student</option>
                 {students.map(student => (
-                  <option key={student.Id} value={student.Id}>
+<option key={student.Id} value={student.Id}>
                     {student.name} ({student.id})
                   </option>
                 ))}
@@ -182,7 +182,7 @@ const GradeForm = ({ grade, onSave, onCancel }) => {
               >
                 <option value="">Select a class</option>
                 {classes.map(cls => (
-                  <option key={cls.Id} value={cls.Id}>
+<option key={cls.Id} value={cls.Id}>
                     {cls.name} - {cls.subject}
                   </option>
                 ))}
@@ -199,7 +199,7 @@ const GradeForm = ({ grade, onSave, onCancel }) => {
               {assignments
                 .filter(a => !formData.classId || a.classId.toString() === formData.classId)
                 .map(assignment => (
-                  <option key={assignment.Id} value={assignment.Id}>
+<option key={assignment.Id} value={assignment.Id}>
                     {assignment.name} ({assignment.category}) - {assignment.maxPoints} pts
                   </option>
                 ))}

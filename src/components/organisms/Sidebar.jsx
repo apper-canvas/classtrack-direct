@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import { AuthContext } from '../../App';
 
 const Sidebar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
+  const { logout } = useContext(AuthContext);
+  const { user, isAuthenticated } = useSelector((state) => state.user);
 
   const navigationItems = [
     { name: "Dashboard", path: "/", icon: "BarChart3" },
@@ -37,6 +42,10 @@ const Sidebar = () => {
         <span className="font-medium">{item.name}</span>
       </NavLink>
     );
+  };
+
+  const handleLogout = async () => {
+    await logout();
   };
 
   return (
@@ -85,16 +94,27 @@ const Sidebar = () => {
           ))}
         </nav>
 
-        <div className="p-6 border-t border-gray-200">
-          <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg">
-            <div className="w-10 h-10 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full flex items-center justify-center">
-              <ApperIcon name="User" className="w-5 h-5 text-white" />
+        <div className="p-6 border-t border-gray-200 space-y-3">
+          {isAuthenticated && user && (
+            <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg">
+              <div className="w-10 h-10 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full flex items-center justify-center">
+                <ApperIcon name="User" className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">{user.firstName} {user.lastName}</p>
+                <p className="text-sm text-gray-600">{user.emailAddress}</p>
+              </div>
             </div>
-            <div>
-              <p className="font-medium text-gray-900">Teacher</p>
-              <p className="text-sm text-gray-600">Educator</p>
-            </div>
-          </div>
+          )}
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleLogout}
+            className="w-full"
+          >
+            <ApperIcon name="LogOut" className="w-4 h-4 mr-2" />
+            Logout
+          </Button>
         </div>
       </aside>
 
@@ -120,16 +140,27 @@ const Sidebar = () => {
           ))}
         </nav>
 
-        <div className="p-6 border-t border-gray-200">
-          <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg">
-            <div className="w-10 h-10 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full flex items-center justify-center">
-              <ApperIcon name="User" className="w-5 h-5 text-white" />
+        <div className="p-6 border-t border-gray-200 space-y-3">
+          {isAuthenticated && user && (
+            <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg">
+              <div className="w-10 h-10 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full flex items-center justify-center">
+                <ApperIcon name="User" className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">{user.firstName} {user.lastName}</p>
+                <p className="text-sm text-gray-600">{user.emailAddress}</p>
+              </div>
             </div>
-            <div>
-              <p className="font-medium text-gray-900">Teacher</p>
-              <p className="text-sm text-gray-600">Educator</p>
-            </div>
-          </div>
+          )}
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleLogout}
+            className="w-full"
+          >
+            <ApperIcon name="LogOut" className="w-4 h-4 mr-2" />
+            Logout
+          </Button>
         </div>
       </aside>
     </>

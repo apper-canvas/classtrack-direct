@@ -36,7 +36,7 @@ const [students, setStudents] = useState([]);
     setLoading(true);
     setError("");
     try {
-      const [studentData, gradeData] = await Promise.all([
+const [studentData, gradeData] = await Promise.all([
         studentService.getAll(),
         gradeService.getAll()
       ]);
@@ -57,7 +57,7 @@ const filterStudents = () => {
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(student =>
-        student.name.toLowerCase().includes(query) ||
+student.name.toLowerCase().includes(query) ||
         student.id.toLowerCase().includes(query) ||
         student.email.toLowerCase().includes(query)
       );
@@ -160,8 +160,8 @@ const filterStudents = () => {
   };
 
   const getStudentAverage = (studentId) => {
-    const studentGrades = grades.filter(g => g.studentId === studentId);
-    if (studentGrades.length === 0) return undefined;
+const studentGrades = grades.filter(g => g.studentId === studentId);
+    if (studentGrades.length === 0) return null;
     
     const average = studentGrades.reduce((sum, grade) => {
       return sum + (grade.points / grade.maxPoints * 100);
@@ -382,7 +382,7 @@ const filterStudents = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredStudents.map((student) => (
             <StudentCard
-              key={student.Id}
+key={student.Id}
               student={student}
               averageGrade={getStudentAverage(student.Id)}
             />

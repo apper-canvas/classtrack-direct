@@ -174,7 +174,7 @@ const StudentForm = ({ student, onSave, onCancel }) => {
               >
                 <option value="">Select a class</option>
                 {classes.map(cls => (
-                  <option key={cls.Id} value={cls.Id}>{cls.name}</option>
+<option key={cls.Id} value={cls.Id}>{cls.name}</option>
                 ))}
               </select>
             </FormField>
